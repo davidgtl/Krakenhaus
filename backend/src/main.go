@@ -12,10 +12,16 @@ import (
 func main() {
 
   router := mux.NewRouter()
-  router.HandleFunc("/api/user/new", controllers.CreateAccount).Methods("POST")
-  router.HandleFunc("/api/user/login", controllers.Authenticate).Methods("POST")
-  router.HandleFunc("/api/contacts/new", controllers.CreateContact).Methods("POST")
-  router.HandleFunc("/", controllers.GetContactsFor).Methods("GET")
+
+  router.HandleFunc("/user/new", controllers.CreateAccount).Methods("POST")
+  router.HandleFunc("/user/login", controllers.Authenticate).Methods("POST")
+
+  router.HandleFunc("/patients/new", controllers.CreatePatient).Methods("POST")
+  router.HandleFunc("/patients/", controllers.ListPatients).Methods("GET")
+  router.HandleFunc("/patients/", controllers.GetPatient).Methods("POST")
+  router.HandleFunc("/patients/update", controllers.UpdatePatient).Methods("POST")
+  router.HandleFunc("/patients/delete", controllers.DeletePatient).Methods("POST")
+  //router.HandleFunc("/", controllers.GetContactsFor).Methods("GET")
 
   router.Use(app.JwtAuthentication) //attach JWT auth middleware
 
@@ -23,7 +29,7 @@ func main() {
 
   fmt.Println(port)
 
-  err := http.ListenAndServe(":" + port, router) //Launch the app, visit localhost:8000/api
+  err := http.ListenAndServe("127.0.0.1:" + port, router) //Launch the app, visit localhost:8000/api
   if err != nil {
     fmt.Print(err)
   }
