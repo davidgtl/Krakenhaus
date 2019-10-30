@@ -1,34 +1,21 @@
 package models
 
 import (
-	//"errors"
 	u "dslic/utils"
-	"fmt"
 	"github.com/jinzhu/gorm"
 	"reflect"
 )
 
-func Get(item interface{}) error {
+func Get(item interface{}) map[string] interface{}  {
 
 	obj := reflect.ValueOf(item)
-
-	/*objelem := obj.Elem()
-	for i := 0; i < objelem.NumField(); i++ {
-		fmt.Println(objelem.Type().Field(i).Name)
-		fmt.Println(objelem.Type().Field(i))
-	}*/
-
 	mod := reflect.Indirect(obj).FieldByName("Model").Interface().(gorm.Model)
 
-	fmt.Print(mod.ID)
+	item = GetDB().Where("id = ?", mod.ID).First(item)
 
-	//fmt.Print(reflect.ValueOf(intr).FieldByName("ID").Interface())
-	//val := reflect.ValueOf(&item).Elem()
-
-	id := mod.ID
-	return GetDB().Where("id = ?", id).First(item).Error
-
-	//return errors.New("argument is not a gorm model")
+	resp := u.Message(true, "success")
+	resp["object"] = item
+	return resp
 }
 
 
@@ -52,7 +39,7 @@ func Update(item interface{}) map[string] interface{} {
 
 func List(items interface{}) map[string] interface{} {
 
-	db.Find(&items)
+	db.Find(items)
 
 	resp := u.Message(true, "success")
 	resp["object"] = items

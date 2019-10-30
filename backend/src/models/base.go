@@ -37,9 +37,15 @@ func init() {
 	}
 
 	db = conn
-	//db.DropTable(&Patient{})
-	//db.DropTable(&Account{})
-	db.Debug().AutoMigrate(&Account{}, &Patient{}) //Database migration
+	if false {
+		//db.DropTable(&Account{})
+		//db.DropTable(&Caregiver{})
+		//db.DropTable(&MedicationPlan{})
+		//db.DropTable(&Medication{})
+		//db.DropTable(&Patient{})
+		//db.DropTable(&Prescription{})
+	}
+	db.Debug().AutoMigrate(&Account{}, &Patient{}, &Medication{}, &MedicationPlan{}, &Caregiver{}) //Database migration
 }
 
 //returns a handle to the DB object

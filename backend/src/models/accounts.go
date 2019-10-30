@@ -23,6 +23,7 @@ type Account struct {
 	Email string `json:"email"`
 	Password string `json:"password"`
 	Token string `json:"token";sql:"-"`
+	Role string `json:"role"`
 }
 
 //Validate incoming user details...
