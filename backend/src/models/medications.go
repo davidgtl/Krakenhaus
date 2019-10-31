@@ -6,7 +6,7 @@ import (
 
 type Medication struct {
 	gorm.Model
-	Name string `json:"name"`
-	SideEffects string `json:"name"`
-	Dosage int `json:"name"`
+	Name        string `json:"name"`
+	SideEffects string `json:"side_effects"`
+	Dosage      int    `json:"dosage"`
 }
