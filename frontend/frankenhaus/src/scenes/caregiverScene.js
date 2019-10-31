@@ -1,8 +1,7 @@
-import React from 'react';
 import Paper from "@material-ui/core/Paper";
-import makeStyles from "@material-ui/core/styles/makeStyles";
-import "../dependencies/component"
 import GenericTable from "../components/GenericTable";
+import React from "react";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 
 function createData(name, calories, fat, carbs, protein) {
     return {name, calories, fat, carbs, protein};
@@ -26,18 +25,7 @@ const useStyles = makeStyles({
     },
 });
 
-const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.target);
-
-    fetch('/api/form-submit-url', {
-        method: 'POST',
-        body: data,
-    });
-};
-
-
-const Patients = ({history}) => {
+const CaregiverScene = ({history}) => {
     const classes = useStyles();
     const actions = [
         {
@@ -54,7 +42,7 @@ const Patients = ({history}) => {
             "subactions": [
                 {
                     "name": "Save",
-                    "action": handleSubmit
+                    "action":  console.log
                 }
             ]
         }
@@ -67,4 +55,4 @@ const Patients = ({history}) => {
     );
 };
 
-export default Patients;
+export default CaregiverScene;

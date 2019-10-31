@@ -11,14 +11,12 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
-const token =  Cookie.get("token") ? Cookie.get("token") : null;
-
-//to set a cookie
-Cookie.set("token", token);
-
+import axios from 'axios';
+import {login} from "./session";
+import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
+import {red} from "@material-ui/core/colors";
 
 function Copyright() {
     return (
@@ -59,24 +57,13 @@ const handleLogin = (username, password) => {
         "email": username,
         "password": password
     };
-
-    fetch('https://dslic.herokuapp.com/api/user/login', {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    }).then(response => {
-        console.log("Login response:");
-        console.log(response);
-        if(response.status !== 404) {
-            const content = response.json();
-            Cookie.set("token", content.account.token);
-            console.log("json:");
-            console.log(content)
-        }
-    });
+    axios.post('http://127.0.0.1:8080/user/login', data)
+        .then(function (response) {
+            login(response.data.account);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
 };
 
 export function requestUserInfo(token) {
@@ -93,15 +80,15 @@ export function requestUserInfo(token) {
 export default function Login() {
     const classes = useStyles();
 
-    const [username, setUsername] = useState( '' );
-    const [password, setPassword] = useState( '' );
+    const [username, setUsername] = useState('a@b.c');
+    const [password, setPassword] = useState('qwerty');
 
     return (
         <Container component="main" maxWidth="xs">
-            <CssBaseline />
+            <CssBaseline/>
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon />
+                    <LockOutlinedIcon/>
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     Sign in
@@ -118,7 +105,7 @@ export default function Login() {
                         autoComplete="email"
                         autoFocus
                         value={username}
-                        onChange={ evt => setUsername(evt.target.value)}
+                        onChange={evt => setUsername(evt.target.value)}
                     />
                     <TextField
                         variant="outlined"
@@ -131,14 +118,14 @@ export default function Login() {
                         id="password"
                         autoComplete="current-password"
                         value={password}
-                        onChange={ evt => setPassword(evt.target.value)}
+                        onChange={evt => setPassword(evt.target.value)}
                     />
                     <Button
                         fullWidth
                         variant="contained"
                         color="primary"
                         className={classes.submit}
-                        onClick={() =>  handleLogin(username, password)}
+                        onClick={() => handleLogin(username, password)}
                     >
                         Sign In
                     </Button>
@@ -157,7 +144,7 @@ export default function Login() {
                 </form>
             </div>
             <Box mt={8}>
-                <Copyright />
+                <Copyright/>
             </Box>
         </Container>
     );

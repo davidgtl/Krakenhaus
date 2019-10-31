@@ -3,6 +3,8 @@ module dslic
 require (
 	github.com/denisenkom/go-mssqldb v0.0.0-20191001013358-cfbb681360f0 // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
+	github.com/go-chi/chi v4.0.2+incompatible
+	github.com/go-chi/cors v1.0.0
 	github.com/gorilla/mux v1.6.2
 	github.com/jinzhu/gorm v1.9.11
 	github.com/joho/godotenv v1.3.0

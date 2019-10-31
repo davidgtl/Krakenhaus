@@ -44,15 +44,15 @@ var GetPatient = func(w http.ResponseWriter, r *http.Request){
 
 
 var UpdatePatient = func(w http.ResponseWriter, r *http.Request){
-	patient := &models.Patient{}
+	obj := &models.Patient{}
 
-	err := json.NewDecoder(r.Body).Decode(patient)
+	err := json.NewDecoder(r.Body).Decode(obj)
 	if err != nil {
 		u.Respond(w, u.Message(false, "Error while decoding request body"))
 		return
 	}
 
-	resp := models.Update(patient)
+	resp := models.Update(obj)
 	u.Respond(w, resp)
 }
 

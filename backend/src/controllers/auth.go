@@ -20,6 +20,19 @@ var CreateAccount = func(w http.ResponseWriter, r *http.Request) {
 	u.Respond(w, resp)
 }
 
+var UpdateAccount = func(w http.ResponseWriter, r *http.Request){
+	obj := &models.Account{}
+
+	err := json.NewDecoder(r.Body).Decode(obj)
+	if err != nil {
+		u.Respond(w, u.Message(false, "Error while decoding request body"))
+		return
+	}
+
+	resp := models.Update(obj)
+	u.Respond(w, resp)
+}
+
 var Authenticate = func(w http.ResponseWriter, r *http.Request) {
 
 	account := &models.Account{}

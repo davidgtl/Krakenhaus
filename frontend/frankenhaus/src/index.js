@@ -5,8 +5,8 @@ import {Route, Link, BrowserRouter as Router} from 'react-router-dom'
 import {createMuiTheme} from '@material-ui/core/styles';
 import './index.css';
 import App from './App';
-import Caretakers from './doctor/caretakers'
-import Patients from './doctor/patients'
+import Caregiver from './views/caregiver'
+import Patients from './views/patients'
 
 import * as serviceWorker from './serviceWorker';
 import {ThemeProvider} from "@material-ui/styles";
@@ -15,26 +15,21 @@ import Container from "@material-ui/core/Container";
 import {MuiThemeProvider} from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Login from "./login/login";
+import Medications from "./views/medications";
+import DoctorScene from "./scenes/doctorScene";
+import CaregiverScene from "./scenes/caregiverScene";
+import PatientScene from "./scenes/patientScene";
+import Navbar from "./components/navbar";
+import {roleProp} from "./login/session";
 
-const routing = (
-    <Router>
-        <ul>
-            <li>
-                <Link to="/">Home</Link>
-            </li>
-            <li>
-                <Link to="/users">Users</Link>
-            </li>
-            <li>
-                <Link to="/patient">Patients</Link>
-            </li>
-        </ul>
-        <Route exact path="/" component={App}/>
-        <Route path="/users" component={Caretakers}/>
-        <Route path="/patient" component={Patients}/>
-        <Route path="/login" component={Login}/>
-    </Router>
-);
+const routing = () => {
+
+    return (
+        <Router>
+            <Route exact path="/" component={roleProp("homeScene")}/>
+        </Router>
+    );
+};
 
 const theme = createMuiTheme({
     palette: {
@@ -63,8 +58,10 @@ const theme = createMuiTheme({
 
 ReactDOM.render(
     <MuiThemeProvider theme={theme}>
-        <CssBaseline />
-            {routing}
+        <CssBaseline/>
+        {roleProp("navbar")}
+
+        {routing()}
     </MuiThemeProvider>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

@@ -4,26 +4,33 @@ import (
   "dslic/app"
   "dslic/controllers"
   "fmt"
-  "github.com/gorilla/mux"
+  "github.com/go-chi/chi"
+  "github.com/go-chi/cors"
   "net/http"
   "os"
 )
 
 func main() {
 
-  router := mux.NewRouter()
+  router := chi.NewRouter()
 
-  router.HandleFunc("/user/new", controllers.CreateAccount).Methods("POST")
-  router.HandleFunc("/user/login", controllers.Authenticate).Methods("POST")
+  cors := cors.New(cors.Options{
+    AllowedOrigins: []string{"*"},
+  })
+  router.Use(cors.Handler)
+  router.Use(app.JwtAuthentication)
 
-  router.HandleFunc("/patients/new", controllers.CreatePatient).Methods("POST")
-  router.HandleFunc("/patients/", controllers.ListPatients).Methods("GET")
-  router.HandleFunc("/patients/", controllers.GetPatient).Methods("POST")
-  router.HandleFunc("/patients/update", controllers.UpdatePatient).Methods("POST")
-  router.HandleFunc("/patients/delete", controllers.DeletePatient).Methods("POST")
+
+  router.Post("/user/new", controllers.CreateAccount)
+  router.Post("/user/update", controllers.UpdateAccount)
+  router.Post("/user/login", controllers.Authenticate)
+
+  router.Post("/patients/new", controllers.CreatePatient)
+  router.Get("/patients/", controllers.ListPatients)
+  router.Post("/patients/", controllers.GetPatient)
+  router.Post("/patients/update", controllers.UpdatePatient)
+  router.Post("/patients/delete", controllers.DeletePatient)
   //router.HandleFunc("/", controllers.GetContactsFor).Methods("GET")
-
-  router.Use(app.JwtAuthentication) //attach JWT auth middleware
 
   port := os.Getenv("PORT") //Get port from .env file, we did not specify any port so this should return an empty string when tested locally
 
