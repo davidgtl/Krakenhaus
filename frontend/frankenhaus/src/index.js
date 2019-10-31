@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 import {Route, Link, BrowserRouter as Router} from 'react-router-dom'
 import {createMuiTheme} from '@material-ui/core/styles';
@@ -20,10 +20,10 @@ import DoctorScene from "./scenes/doctorScene";
 import CaregiverScene from "./scenes/caregiverScene";
 import PatientScene from "./scenes/patientScene";
 import Navbar from "./components/navbar";
+import {MainScene} from "./scenes/mainScene";
 import {roleProp} from "./login/session";
 
 const routing = () => {
-
     return (
         <Router>
             <Route exact path="/" component={roleProp("homeScene")}/>
@@ -60,7 +60,6 @@ ReactDOM.render(
     <MuiThemeProvider theme={theme}>
         <CssBaseline/>
         {roleProp("navbar")}
-
         {routing()}
     </MuiThemeProvider>, document.getElementById('root'));
 

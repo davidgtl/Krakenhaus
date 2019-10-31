@@ -68,21 +68,3 @@ var DeletePatient = func(w http.ResponseWriter, r *http.Request){
 	models.Delete(patient)
 	u.Respond(w, patient)
 }
-/*
-var GetContactsFor = func(w http.ResponseWriter, r *http.Request) {
-
-	*params := mux.Vars(r)
-	id, err := strconv.Atoi(params["id"])
-	if err != nil {
-		//The passed path parameter is not an integer
-		u.Respond(w, u.Message(false, "There was an error in your request"))
-		return
-	}*
-
-	id := r.Context().Value("user") . (uint)
-
-	data := models.GetContacts(uint(id))
-	resp := u.Message(true, "success")
-	resp["data"] = data
-	u.Respond(w, resp)
-}*/

@@ -4,9 +4,12 @@ import DoctorScene from "../scenes/doctorScene";
 import CaregiverScene from "../scenes/caregiverScene";
 import Login from "./login";
 import React from "react";
+import Patients from "../views/patients";
+import Caregivers from "../views/caregiver";
+import Medications from "../views/medications";
+import PatientScene from "../scenes/patientScene";
 
 export const axiosConfig = () => {
-    const jwt = Cookies.get('__session');
     return {
         headers: {
             Authorization: "Bearer " + Cookies.get("token")
@@ -15,8 +18,6 @@ export const axiosConfig = () => {
 };
 
 export const login = (user) => {
-    console.log(user);
-    console.log(user.token);
     Cookies.set("token", user.token);
     Cookies.set("role", user.role);
     window.location.reload();
@@ -47,19 +48,29 @@ export const getSession = () => {
 const roleProperties = () => {
     return {
         default: {
-            navbar: <Navbar />,
+            navbar: <Navbar/>,
+            navitems: () => {},
+            greeting: "",
         },
         "doctor": {
             homeScene: DoctorScene,
+            navitems: {
+                "Patients" : <Patients/>,
+                "Caregivers" : <Caregivers/>,
+                "Medication" : <Medications/>,
+            },
+            greeting: "Welcome, Doctor!",
         },
         "caregiver": {
-            homeScene: CaregiverScene,
+            homeScene: <CaregiverScene view={""}/>,
+            greeting: "Welcome, Caregiver!",
         },
         "patient": {
-            homeScene: CaregiverScene
+            homeScene: <PatientScene view={""}/>,
+            greeting: "You're getting better!",
         },
         "": {
-            homeScene: Login,
+            homeScene: () => <Login/>,
             navbar: () => {}
         }
     };
@@ -72,7 +83,6 @@ export const roleProp = (prop) =>{
     if(role === undefined)  role = "";
 
     const properties = roleProperties();
-    console.log(properties);
     if(properties[role][prop] === undefined)
         return properties.default[prop];
 

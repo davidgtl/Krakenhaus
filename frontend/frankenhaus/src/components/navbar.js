@@ -3,13 +3,16 @@ import {loginTheme} from "../scenes/common";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import React from "react";
-import {logout} from "../login/session";
+import {logout, roleProp} from "../login/session";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import MenuIcon from '@material-ui/icons/Menu';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import Cookies from 'js-cookie'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -23,17 +26,44 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function Navbar() {
+export default function Navbar({props}) {
     const classes = useStyles();
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleClick = event => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = (view) => {
+        return () => {
+            Cookies.set("view", view);
+            setAnchorEl(null);
+            window.location.reload();
+        };
+    };
+
+    const navitems = roleProp("navitems");
+    const menuItems = Object.getOwnPropertyNames(navitems).map(x => <MenuItem onClick={handleClose(navitems[x])}>{x}</MenuItem>);
+
     return (
         <MuiThemeProvider theme={loginTheme}>
             <AppBar position="static">
                 <Toolbar>
-                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                        <MenuIcon />
+                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu"
+                                aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+                        <MenuIcon/>
                     </IconButton>
+                    <Menu
+                        id="simple-menu"
+                        anchorEl={anchorEl}
+                        keepMounted
+                        open={Boolean(anchorEl)}
+                        onClose={handleClose}
+                    >
+                        {menuItems}
+                    </Menu>
                     <Typography variant="h6" className={classes.title}>
-                        News
+                        {roleProp("greeting")}
                     </Typography>
                     <Button variant="contained" color="secondary" onClick={() => logout()}>
                         Logout
