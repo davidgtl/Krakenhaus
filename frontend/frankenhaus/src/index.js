@@ -5,7 +5,7 @@ import {Route, Link, BrowserRouter as Router} from 'react-router-dom'
 import {createMuiTheme} from '@material-ui/core/styles';
 import './index.css';
 import App from './App';
-import Caregiver from './views/caregiver'
+import Caregiver from './views/caregivers'
 import Patients from './views/patients'
 
 import * as serviceWorker from './serviceWorker';
@@ -35,7 +35,7 @@ const theme = createMuiTheme({
     palette: {
         type: 'dark',
         primary: {main: '#26b0f5'},
-        secondary: {main: '#4DD0E1'}
+        secondary: {main: '#f7671d'}
     },
     typography: {
         fontFamily: [

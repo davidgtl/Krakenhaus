@@ -34,16 +34,23 @@ export default function Navbar({props}) {
         setAnchorEl(event.currentTarget);
     };
 
-    const handleClose = (view) => {
+    const handleClose = () => {
+        return () => {
+            setAnchorEl(null);
+        };
+    };
+
+    const handleViewChange = (view) => {
         return () => {
             Cookies.set("view", view);
-            setAnchorEl(null);
             window.location.reload();
         };
     };
 
     const navitems = roleProp("navitems");
-    const menuItems = Object.getOwnPropertyNames(navitems).map(x => <MenuItem onClick={handleClose(navitems[x])}>{x}</MenuItem>);
+    console.log(navitems);
+
+    const menuItems = Object.getOwnPropertyNames(navitems).map(x => <MenuItem onClick={handleViewChange(navitems[x])}>{x}</MenuItem>);
 
     return (
         <MuiThemeProvider theme={loginTheme}>

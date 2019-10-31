@@ -21,8 +21,8 @@ const useStyles = makeStyles({
 });
 
 
-const Patients = ({history}) => {
-    const apiroute = "patients";
+const Caregivers = ({history}) => {
+    const apiroute = "caregivers";
     const [rows, setRows] = React.useState([]);
 
     useEffect(() => {
@@ -83,7 +83,6 @@ const Patients = ({history}) => {
         birth_date: "Birth date",
         gender: "Gender",
         address: "Address",
-        medical_record: "Medical Records",
         actions: "Actions"
     };
 
@@ -98,4 +97,4 @@ const Patients = ({history}) => {
     );
 };
 
-export default Patients;
+export default Caregivers;

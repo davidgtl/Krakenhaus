@@ -7,7 +7,7 @@ import Button from "@material-ui/core/Button";
 import {MuiThemeProvider} from "@material-ui/core";
 import Patients from "../views/patients";
 import Medications from "../views/medications";
-import Caregivers from "../views/caregiver";
+import Caregivers from "../views/caregivers";
 import Cookies from 'js-cookie'
 
 const useStyles = makeStyles({
@@ -30,37 +30,17 @@ const DoctorScene = ({history, props}) => {
         "medications": <Medications/>,
         "caregivers": <Caregivers/>,
     };
+    let viewDOM = "";
     let view = Cookies.get("view");
-    if(view === undefined)
-        view = "";
-
-    view = viewMap[view];
-
-    const actions = [
-        {
-            "name": "Remove",
-            "action": () => console.log("Removed")
-        },
-        {
-            "name": "Add",
-            "action": () => console.log("Added")
-        },
-        {
-            "name": "Edit",
-            "action": () => history.push('/'),
-            "subactions": [
-                {
-                    "name": "Save",
-                    "action": console.log
-                }
-            ]
-        }
-    ];
+    if (view === undefined || view == "patients")
+        viewDOM = <Patients/>;
+    if (view === "medications")
+        viewDOM = <Medications/>;
+    if (view === "caregivers")
+        viewDOM = <Caregivers/>;
 
 
-    return (
-        <Patients/>
-    );
+    return viewDOM;
 };
 
 export default DoctorScene;

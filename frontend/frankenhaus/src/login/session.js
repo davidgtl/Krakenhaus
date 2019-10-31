@@ -5,7 +5,7 @@ import CaregiverScene from "../scenes/caregiverScene";
 import Login from "./login";
 import React from "react";
 import Patients from "../views/patients";
-import Caregivers from "../views/caregiver";
+import Caregivers from "../views/caregivers";
 import Medications from "../views/medications";
 import PatientScene from "../scenes/patientScene";
 
@@ -55,18 +55,21 @@ const roleProperties = () => {
         "doctor": {
             homeScene: DoctorScene,
             navitems: {
-                "Patients" : <Patients/>,
-                "Caregivers" : <Caregivers/>,
-                "Medication" : <Medications/>,
+                "Patients" : "patients",
+                "Caregivers" : "caregivers",
+                "Medication" : "medications",
             },
             greeting: "Welcome, Doctor!",
         },
         "caregiver": {
-            homeScene: <CaregiverScene view={""}/>,
+            homeScene: CaregiverScene,
+            navitems: {
+                "Patients" : "patients",
+            },
             greeting: "Welcome, Caregiver!",
         },
         "patient": {
-            homeScene: <PatientScene view={""}/>,
+            homeScene: PatientScene,
             greeting: "You're getting better!",
         },
         "": {
