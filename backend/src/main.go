@@ -26,6 +26,8 @@ func main() {
   router.Use(cors.Handler)
   router.Use(app.JwtAuthentication)
 
+  router.HandleFunc("/ws", controllers.WsHandler)
+
 
   router.Post("/user/new", controllers.CreateAccount)
   router.Post("/user/update", controllers.UpdateAccount)

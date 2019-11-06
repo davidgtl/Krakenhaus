@@ -3,6 +3,7 @@ package controllers
 import (
 	"dslic/models"
 	"encoding/json"
+	"github.com/gorilla/websocket"
 	"github.com/streadway/amqp"
 	"log"
 )
@@ -53,6 +54,9 @@ func ListenForRabbits() {
 			//_ := json.NewDecoder(msg).Decode(activity)
 			log.Printf("%s", activity.Name)
 			log.Printf("Received a message: %s", d.Body)
+			for _, conn := range wsConnections{
+				_ = conn.WriteMessage(websocket.TextMessage, d.Body)
+			}
 		}
 	}()
 
