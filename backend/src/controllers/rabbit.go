@@ -1,9 +1,10 @@
-package receiver
+package controllers
 
 import (
-	"log"
-
+	"dslic/models"
+	"encoding/json"
 	"github.com/streadway/amqp"
+	"log"
 )
 
 func failOnError(err error, msg string) {
@@ -12,7 +13,7 @@ func failOnError(err error, msg string) {
 	}
 }
 
-func main() {
+func ListenForRabbits() {
 	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
 	failOnError(err, "Failed to connect to RabbitMQ")
 	defer conn.Close()
@@ -46,6 +47,11 @@ func main() {
 
 	go func() {
 		for d := range msgs {
+			//msg := fmt.Sprintf("%s", d.Body)
+			activity := &models.Activity{}
+			_ = json.Unmarshal(d.Body, activity)
+			//_ := json.NewDecoder(msg).Decode(activity)
+			log.Printf("%s", activity.Name)
 			log.Printf("Received a message: %s", d.Body)
 		}
 	}()

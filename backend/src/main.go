@@ -66,6 +66,8 @@ func main() {
 
   fmt.Println(port)
 
+  go controllers.ListenForRabbits()
+
   err := http.ListenAndServe("127.0.0.1:" + port, router) //Launch the app, visit localhost:8000/api
   if err != nil {
     fmt.Print(err)
