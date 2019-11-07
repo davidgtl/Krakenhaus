@@ -3,6 +3,7 @@ package controllers
 import (
 	"dslic/models"
 	"encoding/json"
+	"fmt"
 	"github.com/gorilla/websocket"
 	"github.com/streadway/amqp"
 	"log"
@@ -52,11 +53,26 @@ func ListenForRabbits() {
 			activity := &models.Activity{}
 			_ = json.Unmarshal(d.Body, activity)
 			//_ := json.NewDecoder(msg).Decode(activity)
-			log.Printf("%s", activity.Name)
 			log.Printf("Received a message: %s", d.Body)
-			for _, conn := range wsConnections{
-				_ = conn.WriteMessage(websocket.TextMessage, d.Body)
+
+			message := ""
+			if activity.Name == "Sleeping" && activity.End-activity.Start > 72000 {
+				message = fmt.Sprintf("Patient #%d has slept too much!!", activity.ID)
 			}
+			if activity.Name == "Outdoor" && activity.End-activity.Start > 72000 {
+				message = fmt.Sprintf("Patient #%d has been outdoor too much!!", activity.ID)
+			}
+			if activity.Name == "Toileting" && activity.End-activity.Start > 60000 {
+				message = fmt.Sprintf("Patient #%d has stomach problems!!", activity.ID)
+			}
+
+			if message != "" {
+				log.Print("Naughty patient!!!")
+				for _, conn := range wsConnections {
+					_ = conn.WriteMessage(websocket.TextMessage, []byte(message))
+				}
+			}
+
 		}
 	}()
 

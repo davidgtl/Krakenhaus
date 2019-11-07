@@ -23,5 +23,5 @@ func WsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	wsConnections = append(wsConnections, conn)
-	_ = conn.WriteMessage(websocket.TextMessage, []byte("Hello there!"))
+	//_ = conn.WriteMessage(websocket.TextMessage, []byte("Hello there!"))
 }

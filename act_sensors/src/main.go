@@ -33,13 +33,14 @@ func openActivities(ch *amqp.Channel, q amqp.Queue){
 	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
+	time.Sleep(2500)
 	for scanner.Scan() {
 		body := scanner.Text()
 		//fmt.Println(body)
-		activityReg := regexp.MustCompile(`(.+?)\t+(.+?)\t+(.+?)\s+`)
+		activityReg := regexp.MustCompile(`(.+?)\t+(.+?)\t+(.+?)\t+`)
 		matches := activityReg.FindStringSubmatch(body)
 
-		jsonEntry := fmt.Sprintf(`{"patient_id":1, "activity":"%s", "start": %d, "end": %d}`, matches[3], parseTime(matches[1]), parseTime(matches[1])) //Build connection string
+		jsonEntry := fmt.Sprintf(`{"patient_id":1, "activity":"%s", "start": %d, "end": %d}`, matches[3], parseTime(matches[1]), parseTime(matches[2])) //Build connection string
 
 		err = ch.Publish(
 			"",     // exchange
